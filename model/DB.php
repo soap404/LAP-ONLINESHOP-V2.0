@@ -13,10 +13,10 @@ class DB{
     protected PDO $conn;
 
     public function __construct(){
-        $this->host = getenv('DB_SERVER');
-        $this->user = getenv('DB_USER');
-        $this->password = getenv('DB_PASSWORD');
-        $this->dbname = getenv('DB_DATABASE');
+        $this->host = "127.0.0.1:3310";
+        $this->user = "root";
+        $this->password = "";
+        $this->dbname = "onlineshop";
 
         $this->connect();
     }

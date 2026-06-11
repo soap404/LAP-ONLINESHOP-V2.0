@@ -11,8 +11,8 @@ class User extends DB
         $first_name = $data['first_name'];
         $last_name = $data['last_name'];
 
-        $sql = "INSERT INTO users (email, password, first_name, last_name)
-                VALUES (:email, :password, :first_name, :last_name)";
+        $sql = "INSERT INTO users (email, password, first_name, last_name, is_admin)
+                VALUES (:email, :password, :first_name, :last_name, 0)";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':email', $email);
@@ -22,7 +22,7 @@ class User extends DB
         $stmt->execute();
     }
 
-    public function getUserByEmail($email) : array
+    public function getUserByEmail($email) : bool | array
     {
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
