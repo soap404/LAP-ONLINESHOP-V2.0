@@ -4,6 +4,13 @@ session_start();
 require_once "middleware/isUser.php";
 require_once "middleware/isAdmin.php";
 require_once "middleware/isGuest.php";
+require_once "controller/AuthController.php";
+
+if (isset($_POST['logout'])) {
+    AuthController::logout();
+    header('Location: index.php');
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -57,7 +64,10 @@ require_once "middleware/isGuest.php";
                         <a class="nav-link" href="#">Cart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <form action="" method="POST">
+                            <button class="nav-link" name="logout">Logout</button>
+                        </form>
+
                     </li>
                 <?php endif; ?>
 

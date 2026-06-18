@@ -46,4 +46,10 @@ class AuthController {
         $_SESSION['user'] = $user;
         return true;
     }
+
+    public static function logout() : void {
+        if(isset($_SESSION['user'])) {
+            unset($_SESSION['user']);
+        }
+    }
 }
