@@ -2,7 +2,6 @@
 require_once('templates/header.php');
 require_once('controller/AuthController.php');
 
-echo getenv('DB_SERVER');
 $errors = [];
 
 if(isset($_POST['register'])) {
