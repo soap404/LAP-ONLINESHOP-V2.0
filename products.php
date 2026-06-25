@@ -13,14 +13,14 @@ $products = ProductController::getAllActive();
         <?php foreach ($products as $product): ?>
             <div class="card" style="width: 18rem;">
                 <img src="img/<?= $product['img_name'] ?? 'default.png' ?>" class="card-img-top"
-                     alt="<?= $product['name'] ?>">
+                     alt="<?= htmlspecialchars($product['name']) ?>">
                 <div class="card-body">
                     <h5 class="card-title"><?= $product['name'] ?></h5>
-                    <?php if ($product['description']): ?>
-                        <p class="card-text"><?= $product['description'] ?></p>
+                    <?php if (htmlspecialchars($product['description'])): ?>
+                        <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
                     <?php endif; ?>
-                    <p class="card-text">Stock: <?= $product['stock'] ?></p>
-                    <p class="card-text">Price: <?= $product['price'] ?>$</p>
+                    <p class="card-text">Stock: <?= htmlspecialchars($product['stock']) ?></p>
+                    <p class="card-text">Price: <?= htmlspecialchars($product['price']) ?>$</p>
                     <a href="#" class="btn btn-primary">Add to Cart</a>
                 </div>
             </div>
