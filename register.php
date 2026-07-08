@@ -1,7 +1,7 @@
 <?php
 require_once('templates/header.php');
 require_once('controller/AuthController.php');
-require_once('middleware/isGuest.php');
+require_once('middleware/IsGuest.php');
 
 if(!IsGuest::check()){
     header('Location: index.php');

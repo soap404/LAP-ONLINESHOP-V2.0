@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once "middleware/isUser.php";
-require_once "middleware/isAdmin.php";
-require_once "middleware/isGuest.php";
+require_once "middleware/IsUser.php";
+require_once "middleware/IsAdmin.php";
+require_once "middleware/IsGuest.php";
 require_once "controller/AuthController.php";
 
 if (isset($_POST['logout'])) {
@@ -40,7 +40,7 @@ if (isset($_POST['logout'])) {
                     <a class="nav-link" href="products.php">Products</a>
                 </li>
 
-                <?php if (isGuest::check()): ?>
+                <?php if (IsGuest::check()): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Login</a>
                     </li>
@@ -50,18 +50,19 @@ if (isset($_POST['logout'])) {
                     </li>
                 <?php endif; ?>
 
-                <?php if (isAdmin::check()): ?>
+                <?php if (IsAdmin::check()): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="admin.php">Admin</a>
                     </li>
                 <?php endif; ?>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.php">Cart</a>
+                </li>
+
                 <?php if (IsUser::check()): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Account</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="cart.php">Cart</a>
                     </li>
                     <li class="nav-item">
                         <form action="" method="POST">
