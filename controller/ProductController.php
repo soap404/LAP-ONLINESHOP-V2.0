@@ -1,6 +1,6 @@
 <?php
 
-require_once('model/Products.php');
+require_once('model/Product.php');
 require_once('requests/CreateUpdateProductRequest.php');
 
 
@@ -10,25 +10,25 @@ class ProductController
 
     public static function getAllActive(): array
     {
-        $productsModel = new Products();
+        $productsModel = new Product();
         return $productsModel->allActive();
     }
 
     public static function getAll(): array
     {
-        $productsModel = new Products();
+        $productsModel = new Product();
         return $productsModel->all();
     }
 
     public static function getById(int $id): array| bool
     {
-        $productsModel = new Products();
+        $productsModel = new Product();
         return $productsModel->getById($id);
     }
 
     public static function delete(int $id): bool
     {
-        $productsModel = new Products();
+        $productsModel = new Product();
         $product = $productsModel->getById($id);
         if ($product) {
             unlink('img/' . $product["img_name"]);
@@ -57,7 +57,7 @@ class ProductController
         }
         $data['is_active'] = $data["is_active"] ? 1 : 0;
 
-        $productModel = new Products();
+        $productModel = new Product();
         $productModel->create($data);
         return true;
 
@@ -66,7 +66,7 @@ class ProductController
     public static function edit(int $id, array $data, $files): array|bool
     {
 
-        $productModel = new Products();
+        $productModel = new Product();
 
         $product = $productModel->getById($id);
         if (!$product) {

@@ -61,7 +61,7 @@ if (isset($_POST['logout'])) {
                         <a class="nav-link" href="#">Account</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cart</a>
+                        <a class="nav-link" href="cart.php">Cart</a>
                     </li>
                     <li class="nav-item">
                         <form action="" method="POST">

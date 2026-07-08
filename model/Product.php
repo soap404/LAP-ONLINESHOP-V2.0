@@ -1,7 +1,7 @@
 <?php
 
 require_once "DB.php";
-class Products extends DB
+class Product extends DB
 {
     public function allActive() : bool | array
     {
@@ -34,6 +34,15 @@ class Products extends DB
         $stmt->bindParam(":id", $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getByIds(array $ids) : array
+    {
+        $ids = implode(",", $ids);
+        $sql = "SELECT * FROM products WHERE id IN ($ids)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function create(array $data) : bool

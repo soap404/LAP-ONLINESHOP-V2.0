@@ -1,8 +1,20 @@
 <?php
 require_once('templates/header.php');
 require_once('controller/ProductController.php');
+require_once('controller/CartController.php');
 
 $products = ProductController::getAllActive();
+
+if (isset($_POST['add_to_cart'])) {
+    $id = $_POST['id'];
+    $quantity = $_POST['quantity'];
+    $result = CartController::store($id, $quantity);
+    if ($result === true) {
+        header('location: cart.php');
+    } else {
+        header('location: products.php');
+    }
+}
 
 
 ?>
@@ -21,7 +33,15 @@ $products = ProductController::getAllActive();
                     <?php endif; ?>
                     <p class="card-text">Stock: <?= htmlspecialchars($product['stock']) ?></p>
                     <p class="card-text">Price: <?= htmlspecialchars($product['price']) ?>$</p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                    <form method="POST">
+                        <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                        <select name="quantity" class="form-select" aria-label="Quantity">
+                            <?php for ($i = 1; $i <= 30 && $i <= $product['stock']; $i++): ?>
+                                <option value="<?= $i ?>">Quantity: <?= $i ?></option>
+                            <?php endfor; ?>
+                        </select>
+                        <button name="add_to_cart" class="btn btn-primary mt-2 ">Add to Cart</button>
+                    </form>
                 </div>
             </div>
         <?php endforeach; ?>
