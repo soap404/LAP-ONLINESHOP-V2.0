@@ -18,7 +18,7 @@ if (isset($_POST['update'])) {
 
 $products = CartController::index();
 
-function getCartSum(): int
+function getCartSum(): float
 {
     global $products;
 
