@@ -1,6 +1,7 @@
 <?php
 
 require_once "DB.php";
+
 class User extends DB
 {
 
@@ -22,7 +23,7 @@ class User extends DB
         $stmt->execute();
     }
 
-    public function getUserByEmail($email) : bool | array
+    public function getUserByEmail($email): bool|array
     {
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
@@ -30,5 +31,48 @@ class User extends DB
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getUserById(int $id): bool|array
+    {
+        $sql = "SELECT * FROM users WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateUser(array $data, int $id): bool
+    {
+        $email = $data['email'];
+        $first_name = $data['first_name'];
+        $last_name = $data['last_name'];
+
+        $sql = "UPDATE users
+        SET first_name = :first_name,
+            last_name = :last_name,
+            email = :email
+            WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':first_name', $first_name);
+        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return true;
+    }
+
+    public function updateUserPassword(string $password, int $id): bool
+    {
+        $sql = "UPDATE users
+        SET password = :password
+        WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return true;
+    }
+
 
 }
