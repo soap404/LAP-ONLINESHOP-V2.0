@@ -1,5 +1,4 @@
 <?php
-require_once('controller/AccountController.php');
 require_once('requests/UpdateUserRequest.php');
 require_once('requests/UpdatePasswordRequest.php');
 require_once('requests/CreateAddressRequest.php');
