@@ -2,6 +2,12 @@
 require_once('templates/header.php');
 require_once('controller/AccountController.php');
 require_once('controller/AuthController.php');
+require_once('middleware/IsUser.php');
+
+if (!IsUser::check()) {
+    header('Location: login.php');
+    exit();
+}
 
 $errors = [];
 
