@@ -17,6 +17,8 @@ class CreateAddressRequest
             self::$errors[] = 'Zip is required';
         }else if (strlen($data['zip']) != 4) {
             self::$errors[] = 'Zip must be 4 digits';
+        }else if ($data['type'] != 1 || $data['type'] != 2) {
+            self::$errors[] = 'Invalid type';
         }
 
         return self::$errors;
