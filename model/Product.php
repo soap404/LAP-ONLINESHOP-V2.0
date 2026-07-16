@@ -80,5 +80,13 @@ class Product extends DB
         return $stmt->execute();
     }
 
-
+    public function reduce(int $id, int $reduce) : bool{
+        $sql = "UPDATE products SET
+        stock = stock - :reduce
+        WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":reduce", $reduce);
+        $stmt->bindParam(":id", $id);
+        return $stmt->execute();
+    }
 }

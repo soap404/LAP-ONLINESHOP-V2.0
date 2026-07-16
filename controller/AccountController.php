@@ -79,6 +79,36 @@ class AccountController
         return $addressModel->getUserAddresses($user_id);
     }
 
+    public static function getUserAddressesSeparated(): bool|array
+    {
+        $user_id = $_SESSION['user']['id'];
+        $userModel = new User();
+        $user = $userModel->getUserById($user_id);
+        if (!$user) {
+            return false;
+        }
+
+        $addressModel = new Address();
+
+        $addresses = $addressModel->getUserAddresses($user_id);
+
+        $deliveryAddresses = [];
+        $invoiceAddresses = [];
+
+        foreach ($addresses as $address) {
+            if ($address['type'] == 1){
+                $deliveryAddresses[] = $address;
+            }else{
+                $invoiceAddresses[] = $address;
+            }
+        }
+
+        return [
+            'delivery' => $deliveryAddresses,
+            'invoice' => $invoiceAddresses
+        ];
+    }
+
     public static function createAddress($data): bool|array
     {
         self::$errors = CreateAddressRequest::validate($data);

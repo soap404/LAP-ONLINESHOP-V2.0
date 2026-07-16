@@ -77,7 +77,7 @@ function getCartSum(): float
 
         </tbody>
     </table>
-    <a href="" class="btn btn-success">CheckOut <?= getCartSum() ?> $</a>
+    <a href="checkout.php" class="btn btn-success">CheckOut <?= getCartSum() ?> $</a>
 <?php else: ?>
     <div class="alert alert-warning" role="alert">
         Opss your cart is empty.
