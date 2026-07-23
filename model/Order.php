@@ -34,4 +34,75 @@ class Order extends DB
         }
 
     }
+
+    public function admin_index(): array
+    {
+        $sql = "SELECT 
+                    o.id AS order_id,
+                    u.email AS user_email,
+                    o.datetime AS date,
+                    SUM(oi.price * oi.quantity) AS total_price,
+                    o.status
+                FROM orders o
+                LEFT JOIN users u ON u.id = o.user_id
+                LEFT JOIN order_items oi ON o.id = oi.order_id
+                GROUP BY o.id";
+        $orders_stm = $this->conn->prepare($sql);
+        $orders_stm->execute();
+        return $orders_stm->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function user_index($user_id): array
+    {
+        $sql = "SELECT 
+                    o.id AS order_id,
+                    o.datetime AS date,
+                    SUM(oi.price * oi.quantity) AS total_price,
+                    o.status
+                FROM orders o
+                LEFT JOIN users u ON u.id = o.user_id
+                LEFT JOIN order_items oi ON o.id = oi.order_id
+                WHERE o.user_id = :user_id
+                GROUP BY o.id
+                ";
+        $orders_stm = $this->conn->prepare($sql);
+        $orders_stm->bindParam(':user_id', $user_id);
+        $orders_stm->execute();
+        return $orders_stm->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function update_status($order_id, $status): void
+    {
+        $sql = "UPDATE orders SET status = :status WHERE id = :order_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':order_id', $order_id);
+        $stmt->execute();
+    }
+
+    public function show($order_id): bool|array
+    {
+        $sql = "SELECT * FROM orders WHERE id = :order_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':order_id', $order_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function order_details($order_id): bool|array
+    {
+        $sql = "SELECT 
+        oi.price AS price,
+        oi.quantity AS quantity,
+        p.name AS name,
+        p.img_name AS img_name
+        FROM order_items oi
+        LEFT JOIN products p ON p.id = oi.product_id
+        WHERE oi.order_id = :order_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':order_id', $order_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

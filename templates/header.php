@@ -36,10 +36,6 @@ if (isset($_POST['logout'])) {
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="products.php">Products</a>
-                </li>
-
                 <?php if (IsGuest::check()): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Login</a>
@@ -61,6 +57,9 @@ if (isset($_POST['logout'])) {
                 </li>
 
                 <?php if (IsUser::check()): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="orders.php">Orders</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="account.php">Account</a>
                     </li>

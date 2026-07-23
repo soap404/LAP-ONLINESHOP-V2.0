@@ -1,6 +1,5 @@
 <?php require_once('templates/header.php');
 require_once('controller/cartController.php');
-require_once("model/Product.php");
 
 
 if (isset($_POST['remove'])) {

@@ -9,5 +9,6 @@ if(!IsAdmin::check()){
 ?>
 
     <a href="admin_products.php" class="btn btn-primary">Products</a>
+    <a href="admin_orders.php" class="btn btn-primary">Orders</a>
 
 <?php require_once('templates/footer.php');?>

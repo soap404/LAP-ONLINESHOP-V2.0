@@ -2,6 +2,8 @@
 require_once('model/Order.php');
 require_once('model/Address.php');
 require_once('model/Product.php');
+require_once('middleware/IsAdmin.php');
+require_once('middleware/IsUser.php');
 
 class OrderController
 {
@@ -60,5 +62,69 @@ class OrderController
         }
         return true;
 
+    }
+
+    public static function admin_index(): array
+    {
+        $orderModel = new Order();
+        return $orderModel->admin_index();
+    }
+
+    public static function user_index(): bool|array
+    {
+        if (!IsUser::check()) {
+            return false;
+        }
+        $orderModel = new Order();
+        return $orderModel->user_index($_SESSION['user']['id']);
+    }
+
+
+    public static function update_status($order_id, $status): void
+    {
+        if ($status != 2 && $status != 3) {
+            return;
+        }
+
+        $orderModel = new Order();
+        $order = $orderModel->show($order_id);
+        if (!$order || $order['status'] != 1) {
+            return;
+        }
+
+        $orderModel->update_status($order_id, $status);
+        // Rechnug Erstellen Wenn Status 2 ist
+
+        // Email senden
+    }
+
+    public static function order_details($order_id): bool|array
+    {
+        $orderModel = new Order();
+        $order = $orderModel->show($order_id);
+        if (!$order) {
+            return false;
+        }
+        if (!IsAdmin::check() && $order['user_id'] != $_SESSION['user']['id']) {
+            return false;
+        }
+
+        return $orderModel->order_details($order_id);
+    }
+
+    public static function show($order_id): bool|array
+    {
+
+        $orderModel = new Order();
+        $order = $orderModel->show($order_id);
+
+        if (!$order) {
+            return false;
+        }
+        if (!IsAdmin::check() && $order['user_id'] != $_SESSION['user']['id']) {
+            return false;
+        }
+
+        return $order;
     }
 }
